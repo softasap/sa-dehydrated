@@ -7,3 +7,21 @@ server {
          return 200 "scheme: $scheme";
     }
 }
+
+
+server {
+    listen 443 ssl;
+    server_name voronenko.net www.voronenko.net;
+
+    ssl_certificate /opt/letsencrypt/certs/voronenko.net/fullchain.pem;
+    ssl_certificate_key /opt/letsencrypt/certs/voronenko.net/privkey.pem;
+    
+
+    location / {
+         default_type text/plain;
+         return 200 "scheme: $scheme";
+    }
+}
+
+
+
