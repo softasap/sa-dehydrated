@@ -1,0 +1,9 @@
+[submodule "roles/sa-dehydrated"]
+        path = roles/sa-dehydrated
+        url = https://github.com/softasap/sa-dehydrated.git
+[submodule "roles/sa-include"]
+        path = roles/sa-include
+        url = https://github.com/softasap/sa-include.git
+[submodule "roles/sa-nginx"]
+        path = roles/sa-nginx
+        url = https://github.com/softasap/sa-nginx.git

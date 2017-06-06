@@ -1,0 +1,22 @@
+---
+# defaults file for sa-dehydrated
+
+  # Installation directory
+  le_install_dir: "/opt/letsencrypt/"
+
+  dehydrated_version: 0.4.0
+
+  # Let's Encrypt CA URL
+  #le_ca:         "https://acme-staging.api.letsencrypt.org/directory"
+
+  # Setup crob job
+  option_setup_cron: true
+  # Force certificates generation
+  option_run_once:   true
+
+  # Domain list
+  le_domains:
+    - {
+        names: "voronenko.net www.voronenko.net",
+        nginx_config: "/etc/nginx/sites-available/voronenko_net"
+      }

@@ -1,0 +1,116 @@
+---
+  - name: Lets Encrypt | Install dependencies
+    apt:
+      pkg: "{{ item }}"
+    with_items:
+      - curl
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Create user and home directory
+    user:
+      name:       "le"
+      shell:      "/bin/bash"
+      system:     "yes"
+      home:       "{{ le_install_dir }}"
+      createhome: True
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Create letsencrypt '.acme-challenges'  directory
+    file:
+      path:  "{{ le_install_dir }}/.acme-challenges"
+      owner: "le"
+      state: "directory"
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Get dehydrated distrubution
+    unarchive:
+      src:   "https://github.com/lukas2511/dehydrated/archive/v{{dehydrated_version | default('0.4.0')}}.tar.gz"
+      dest:  "/tmp"
+      remote_src: True
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | copy version to {{ le_install_dir }} (1/2)
+    command: "find /tmp/dehydrated-{{dehydrated_version | default('0.4.0')}} -type f"
+    register: files_to_copy
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | copy version to {{ le_install_dir }} (2/2)
+    copy:
+      src: "{{ item }}"
+      dest: "{{ le_install_dir }}"
+      owner: "le"
+      group: "root"
+      mode:  "0664"
+      remote_src: True
+    with_items:
+     - "{{ files_to_copy.stdout_lines }}"
+
+  - name: Lets Encrypt | Copy configuration items
+    template:
+      src:   "templates/{{ item }}.j2"
+      dest:  "{{ le_install_dir }}/{{ item }}"
+      owner: "le"
+      group: "root"
+      mode:  "0664"
+    become: yes
+    with_items:
+      - "config"
+      - "domains.txt"
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Patch Nginx config in '{{ item.nginx_config }}'
+    lineinfile: dest="{{ item.nginx_config }}" regexp="^(\s*)\s*location /\.well-known/acme-challenge(.*)" line="    location /.well-known/acme-challenge/ { alias {{ le_install_dir }}/.acme-challenges/; }" insertafter="^(\s*)\s*server_name"
+    with_items: "{{ le_domains | default([]) }}"
+    when: item.nginx_config is defined
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Nginx | Check if is present
+    command: test -x /usr/sbin/nginx
+    ignore_errors: yes
+    register: nginx_present
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Nginx | Restart
+    service:
+      name:  "nginx"
+      state: restarted
+    become: yes
+    when: nginx_present
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Force generate certificates
+    shell: "./dehydrated --cron --force"
+    args:
+      chdir: "{{ le_install_dir }}"
+    become: yes
+    become_user: le
+    when: option_run_once
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Setup cron
+    cron:
+      name:   "lets encrypt cron"
+      minute: "0"
+      hour:   "1"
+      job:    "{{ le_install_dir }}/dehydrated --cron  > {{ le_install_dir }}/cron.log"
+    become: yes
+    become_user: le
+    when: option_setup_cron
+    tags:
+      - letsencrypt

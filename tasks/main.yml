@@ -1,0 +1,3 @@
+---
+# tasks file for sa-dehydrated
+  - include: tasks_dehydrated.yml
