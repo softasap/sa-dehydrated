@@ -74,20 +74,14 @@ Advanced example:
 
 See standalone example in box-example folder.
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/1.png)
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/2.png)
+Copyright and license
+---------------------
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/3.png)
+Code licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) or the [MIT License] (http://opensource.org/licenses/MIT).
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/4.png)
+Subscribe for roles updates at [FB] (https://www.facebook.com/SoftAsap/)
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/5.png)
+Join gitter discussion channel at [Gitter](https://gitter.im/softasap)
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/6.png)
 
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/7.png)
-
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/8.png)
-
-![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/9.png)
