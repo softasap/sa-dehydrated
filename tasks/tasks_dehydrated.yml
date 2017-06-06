@@ -37,14 +37,14 @@
     tags:
       - letsencrypt
 
-  - name: Lets Encrypt | copy version to {{ le_install_dir }} (1/2)
+  - name: Lets Encrypt | copy version to {{ le_install_dir }} (1/3)
     command: "find /tmp/dehydrated-{{dehydrated_version | default('0.4.0')}} -type f"
     register: files_to_copy
     become: yes
     tags:
       - letsencrypt
 
-  - name: Lets Encrypt | copy version to {{ le_install_dir }} (2/2)
+  - name: Lets Encrypt | copy version to {{ le_install_dir }} (2/3)
     copy:
       src: "{{ item }}"
       dest: "{{ le_install_dir }}"
@@ -54,6 +54,12 @@
       remote_src: True
     with_items:
      - "{{ files_to_copy.stdout_lines }}"
+
+  - name: Lets Encrypt | copy version to {{ le_install_dir }} (3/3)
+    file: path="{{ le_install_dir }}/dehydrated" mode="a+x"
+    become: yes
+    tags:
+      - letsencrypt
 
   - name: Lets Encrypt | Copy configuration items
     template:
@@ -90,6 +96,16 @@
       state: restarted
     become: yes
     when: nginx_present
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Accept usage terms
+    shell: "./dehydrated --register --accept-terms"
+    args:
+      chdir: "{{ le_install_dir }}"
+    become: yes
+    become_user: le
+    when: option_run_once
     tags:
       - letsencrypt
 
