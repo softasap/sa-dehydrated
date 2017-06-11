@@ -74,6 +74,7 @@ Advanced example:
 
 See standalone example in box-example folder.
 
+
 ![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/1.png)
 
 ![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/2.png)
@@ -91,3 +92,40 @@ See standalone example in box-example folder.
 ![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/8.png)
 
 ![](https://raw.github.com/softasap/sa-dehydrated/master/box-example/docs/9.png)
+
+
+Usage with ansible galaxy workflow
+----------------------------------
+
+If you installed the sa-dehydrated  role using the command
+
+
+`
+   ansible-galaxy install softasap.sa-dehydrated
+`
+
+the role will be available in the folder library/sa-dehydrated
+
+Please adjust the path accordingly.
+
+```YAML
+
+     - {
+         role: "softasap.sa-dehydrated"
+       }
+
+```
+
+
+
+
+Copyright and license
+---------------------
+
+Code licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) or the [MIT License] (http://opensource.org/licenses/MIT).
+
+Subscribe for roles updates at [FB] (https://www.facebook.com/SoftAsap/)
+
+Join gitter discussion channel at [Gitter](https://gitter.im/softasap)
+
+

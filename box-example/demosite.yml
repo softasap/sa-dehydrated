@@ -9,7 +9,7 @@
       - update
 
   - name: Nginx | Enable sites
-    command: "ln -fs /etc/nginx/sites-available/lets_apito /etc/nginx/sites-enabled/letsencrypt_site_to_validate creates=/etc/nginx/sites-enabled/letsencrypt_site_to_validate"
+    command: "ln -fs /etc/nginx/sites-available/letsencrypt_site_to_validate /etc/nginx/sites-enabled/letsencrypt_site_to_validate creates=/etc/nginx/sites-enabled/letsencrypt_site_to_validate"
     become: yes
     tags:
       - create
