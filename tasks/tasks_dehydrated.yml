@@ -52,8 +52,11 @@
       group: "root"
       mode:  "0664"
       remote_src: True
+    become: yes
     with_items:
      - "{{ files_to_copy.stdout_lines }}"
+    tags:
+      - letsencrypt
 
   - name: Lets Encrypt | copy version to {{ le_install_dir }} (3/3)
     file: path="{{ le_install_dir }}/dehydrated" mode="a+x"
