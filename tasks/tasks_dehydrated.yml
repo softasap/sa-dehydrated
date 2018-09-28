@@ -89,7 +89,7 @@
   - name: Lets Encrypt | Inject dummy nginx example
     template: src="templates/dummy_domain.j2" dest="/etc/nginx/sites-available/le_example_{{ item.names |hash('sha1')}}"
     with_items: "{{ le_domains | default([]) }}"
-    when: item.nginx_config is defined
+    when: item.nginx_config is not defined
     become: yes
     tags:
       - letsencrypt
@@ -97,7 +97,7 @@
   - name: Lets Encrypt | Inject dummy nginx config
     template: src="templates/dummy_domain.j2" dest="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}"
     with_items: "{{ le_domains | default([]) }}"
-    when: item.nginx_config is defined
+    when: item.nginx_config is not defined
     become: yes
     tags:
       - letsencrypt
@@ -188,16 +188,9 @@
 
   - name: Lets Encrypt | store ansible facts | Store facts
     template:
-      src: templates/sa_role_fact.j2
+      src: templates/sa_role.fact.j2
       dest: /etc/ansible/facts.d/sa-dehydrated.fact
     become: yes
     tags:
       - letsencrypt
 
-  - name: Lets Encrypt | store ansible facts
-    file: path="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}" state="absent"
-    with_items: "{{ le_domains | default([]) }}"
-    when: item.nginx_config is defined
-    become: yes
-    tags:
-      - letsencrypt
