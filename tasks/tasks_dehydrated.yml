@@ -86,6 +86,15 @@
     tags:
       - letsencrypt
 
+  - name: Lets Encrypt | Inject dummy nginx config
+    template: src="templates/dummy_domain.j2" dest="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}"
+    with_items: "{{ le_domains | default([]) }}"
+    when: item.nginx_config is defined
+    become: yes
+    tags:
+      - letsencrypt
+
+
   - name: Lets Encrypt | Nginx | Check if is present
     command: test -x /usr/sbin/nginx
     ignore_errors: yes
@@ -141,5 +150,22 @@
     become: yes
     become_user: le
     when: option_setup_cron
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Remove dummy nginx config
+    file: path="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}" state="absent"
+    with_items: "{{ le_domains | default([]) }}"
+    when: item.nginx_config is defined
+    become: yes
+    tags:
+      - letsencrypt
+
+  - name: Lets Encrypt | Nginx | Restart
+    service:
+      name:  "nginx"
+      state: restarted
+    become: yes
+    when: nginx_present
     tags:
       - letsencrypt
