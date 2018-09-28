@@ -10,21 +10,28 @@
 # Default values of this config are in comments        #
 ########################################################
 
+# Which user should dehydrated run as? This will be implictly enforced when running as root
+#DEHYDRATED_USER=
+
+# Which group should dehydrated run as? This will be implictly enforced when running as root
+#DEHYDRATED_GROUP=
+
 # Resolve names to addresses of IP version only. (curl)
 # supported values: 4, 6
 # default: <unset>
 #IP_VERSION=
 
-# Path to certificate authority (default: https://acme-v01.api.letsencrypt.org/directory)
-CA="{{le_ca | default("https://acme-v01.api.letsencrypt.org/directory")}}"
+# Path to certificate authority (default: https://acme-v02.api.letsencrypt.org/directory)
+CA="{{le_ca | default("https://acme-v02.api.letsencrypt.org/directory")}}"
 
-# Path to certificate authority license terms redirect (default: https://acme-v01.api.letsencrypt.org/terms)
-#CA_TERMS="https://acme-v01.api.letsencrypt.org/terms"
+# Path to old certificate authority
+# Set this value to your old CA value when upgrading from ACMEv1 to ACMEv2 under a different endpoint.
+# If dehydrated detects an account-key for the old CA it will automatically reuse that key
+# instead of registering a new one.
+# default: https://acme-v01.api.letsencrypt.org/directory
+#OLDCA="https://acme-v01.api.letsencrypt.org/directory"
 
-# Path to license agreement (default: <unset>)
-#LICENSE=""
-
-# Which challenge should be used? Currently http-01 and dns-01 are supported
+# Which challenge should be used? Currently http-01, dns-01 and tls-alpn-01 are supported
 #CHALLENGETYPE="http-01"
 
 # Path to a directory containing additional config files, allowing to override
@@ -42,6 +49,9 @@ CA="{{le_ca | default("https://acme-v01.api.letsencrypt.org/directory")}}"
 # Output directory for generated certificates
 #CERTDIR="${BASEDIR}/certs"
 
+# Output directory for alpn verification certificates
+#ALPNCERTDIR="${BASEDIR}/alpn-certs"
+
 # Directory for account keys and registration information
 #ACCOUNTDIR="${BASEDIR}/accounts"
 
@@ -53,6 +63,12 @@ WELLKNOWN="{{le_wellknown_path | default('${BASEDIR}/.acme-challenges')}}"
 
 # Path to openssl config file (default: <unset> - tries to figure out system default)
 #OPENSSL_CNF=
+
+# Path to OpenSSL binary (default: "openssl")
+#OPENSSL="openssl"
+
+# Extra options passed to the curl binary (default: <unset>)
+#CURL_OPTS=
 
 # Program or function called in certain situations
 #
@@ -89,3 +105,18 @@ WELLKNOWN="{{le_wellknown_path | default('${BASEDIR}/.acme-challenges')}}"
 
 # Option to add CSR-flag indicating OCSP stapling to be mandatory (default: no)
 #OCSP_MUST_STAPLE="no"
+
+# Fetch OCSP responses (default: no)
+#OCSP_FETCH="no"
+
+# OCSP refresh interval (default: 5 days)
+#OCSP_DAYS=5
+
+# Issuer chain cache directory (default: $BASEDIR/chains)
+#CHAINCACHE="${BASEDIR}/chains"
+
+# Automatic cleanup (default: no)
+#AUTO_CLEANUP="no"
+
+# ACME API version (default: auto)
+#API=auto

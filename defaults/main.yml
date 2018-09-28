@@ -1,18 +1,23 @@
 ---
 # defaults file for sa-dehydrated
 
+  role_dir: "{{role_path}}"
+
   # Installation directory
   le_install_dir: "/opt/letsencrypt/"
+  le_wellknown_path: "${BASEDIR}/.acme-challenges"
 
-  dehydrated_version: 0.4.0
+  dehydrated_version: 0.6.2
 
   # Let's Encrypt CA URL
-  #le_ca:         "https://acme-staging.api.letsencrypt.org/directory"
+  #le_ca:         "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   # Setup crob job
   option_setup_cron: true
   # Force certificates generation
   option_run_once:   true
+  # Leave prolongation endpoint website
+  option_leave_prolongation_endpoint: false
 
   # Domain list
   le_domains:

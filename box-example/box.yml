@@ -23,7 +23,7 @@
     - {
         role:              "sa-dehydrated",
         le_domains:        "{{ my_domains }}",
-        # le_ca:            "https://acme-staging.api.letsencrypt.org/directory",
+        # le_ca:            "https://acme-staging-v02.api.letsencrypt.org/directory",
         option_run_once:   True,
         option_setup_cron: True
       }
