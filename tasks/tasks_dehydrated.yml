@@ -86,6 +86,14 @@
     tags:
       - letsencrypt
 
+  - name: Lets Encrypt | Inject dummy nginx example
+    template: src="templates/dummy_domain.j2" dest="/etc/nginx/sites-available/le_example_{{ item.names |hash('sha1')}}"
+    with_items: "{{ le_domains | default([]) }}"
+    when: item.nginx_config is defined
+    become: yes
+    tags:
+      - letsencrypt
+
   - name: Lets Encrypt | Inject dummy nginx config
     template: src="templates/dummy_domain.j2" dest="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}"
     with_items: "{{ le_domains | default([]) }}"
