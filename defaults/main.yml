@@ -3,6 +3,7 @@
 
   # Installation directory
   le_install_dir: "/opt/letsencrypt/"
+  le_wellknown_path: "${BASEDIR}/.acme-challenges"
 
   dehydrated_version: 0.6.2
 
