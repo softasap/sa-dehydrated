@@ -7,7 +7,7 @@
   dehydrated_version: 0.6.2
 
   # Let's Encrypt CA URL
-  #le_ca:         "https://acme-staging.api.letsencrypt.org/directory"
+  #le_ca:         "https://acme-staging-v02.api.letsencrypt.org/directory"
 
   # Setup crob job
   option_setup_cron: true
