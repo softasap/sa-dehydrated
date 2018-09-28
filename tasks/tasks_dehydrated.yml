@@ -164,7 +164,7 @@
   - name: Lets Encrypt | Remove dummy nginx config
     file: path="/etc/nginx/sites-enabled/le_removeme_{{ item.names |hash('sha1')}}" state="absent"
     with_items: "{{ le_domains | default([]) }}"
-    when: item.nginx_config is defined
+    when: item.nginx_config is defined and not option_leave_prolongation_endpoint
     become: yes
     tags:
       - letsencrypt

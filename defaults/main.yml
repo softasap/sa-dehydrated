@@ -14,6 +14,8 @@
   option_setup_cron: true
   # Force certificates generation
   option_run_once:   true
+  # Leave prolongation endpoint website
+  option_leave_prolongation_endpoint: false
 
   # Domain list
   le_domains:
