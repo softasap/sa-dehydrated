@@ -4,7 +4,7 @@
   # Installation directory
   le_install_dir: "/opt/letsencrypt/"
 
-  dehydrated_version: 0.4.0
+  dehydrated_version: 0.6.2
 
   # Let's Encrypt CA URL
   #le_ca:         "https://acme-staging.api.letsencrypt.org/directory"

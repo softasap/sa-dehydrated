@@ -30,7 +30,7 @@
 
   - name: Lets Encrypt | Get dehydrated distrubution
     unarchive:
-      src:   "https://github.com/lukas2511/dehydrated/archive/v{{dehydrated_version | default('0.4.0')}}.tar.gz"
+      src:   "https://github.com/lukas2511/dehydrated/archive/v{{dehydrated_version | default('0.6.2')}}.tar.gz"
       dest:  "/tmp"
       remote_src: True
     become: yes
@@ -38,7 +38,7 @@
       - letsencrypt
 
   - name: Lets Encrypt | copy version to {{ le_install_dir }} (1/3)
-    command: "find /tmp/dehydrated-{{dehydrated_version | default('0.4.0')}} -type f"
+    command: "find /tmp/dehydrated-{{dehydrated_version | default('0.6.2')}} -type f"
     register: files_to_copy
     become: yes
     tags:
@@ -101,6 +101,16 @@
     when: nginx_present
     tags:
       - letsencrypt
+
+  - name: Lets Encrypt | Nginx | Allow le to reload/restart nginx
+    template:
+      src:  "templates/nginx.overrides.j2"
+      dest: "/etc/sudoers.d/nginx.overrides"
+    become: yes
+    when: nginx_present
+    tags:
+      - letsencrypt
+
 
   - name: Lets Encrypt | Accept usage terms
     shell: "./dehydrated --register --accept-terms"

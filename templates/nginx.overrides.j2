@@ -1,0 +1,14 @@
+# Enter this command to create a sudoers override/include file:
+# sudo visudo -f /etc/sudoers.d/nginx.overrides
+
+# (Make sure you actually have this in your /etc/sudoers - Run `sudo visudo` to check)
+# #includedir /etc/sudoers.d
+
+# This file assumes your deployment user is `deploy`
+
+# Nginx Commands
+Cmnd_Alias NGINX_RESTART = /usr/sbin/service nginx restart
+Cmnd_Alias NGINX_RELOAD  = /usr/sbin/service nginx reload
+
+# No-Password Commands
+le ALL=NOPASSWD: NGINX_RESTART, NGINX_RELOAD
